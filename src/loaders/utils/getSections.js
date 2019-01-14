@@ -40,6 +40,16 @@ const getSectionComponents = (section, config) => {
  */
 function processSection(section, config, parentDepth) {
 	const contentRelativePath = section.content;
+	const jsxRelativePath = section.jsx;
+
+	// Try to load section React component
+	if (jsxRelativePath) {
+		const jsxAbsolutePath = path.resolve(config.configDir, jsxRelativePath);
+		if (!fs.existsSync(jsxAbsolutePath)) {
+			throw new Error(`Styleguidist: Section content file not found: ${jsxAbsolutePath}`);
+		}
+		content = requireIt(`!!${examplesLoader}!${jsxAbsolutePath}`);
+	}
 
 	// Try to load section content file
 	let content;

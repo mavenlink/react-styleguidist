@@ -17,11 +17,17 @@ export default function Section({ section, depth }, { displayMode, config: { pag
 		description,
 		exampleMode,
 		usageMode,
+		jsx,
 	} = section;
 
-	const contentJsx = content && (
-		<Examples examples={content} name={name} exampleMode={exampleMode} />
-	);
+	let contentJsx;
+
+	if (content) {
+		contentJsx = <Examples examples={content} name={name} exampleMode={exampleMode} />;
+	} else if (jsx) {
+		contentJsx = <jsx />;
+	}
+
 	const componentsJsx = components && (
 		<Components
 			usageMode={usageMode}
